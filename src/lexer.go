@@ -1,11 +1,19 @@
 package src
 
+import "strings"
+
 type Lexer struct {
 	reader CharReader
 }
 
+type TokenTyp string
+
+const (
+	CommentToken TokenTyp = "Comment"
+)
+
 type Token struct {
-	Typ     string
+	Typ     TokenTyp
 	content string
 
 	row int
@@ -39,7 +47,7 @@ func (l *Lexer) next_token() *Token {
 		// Parse code
 	} else if char == '/' {
 		// Parse comment
-		return processComment()
+		// return processComment()
 	} else {
 		panic("cannot parse")
 	}
@@ -48,5 +56,12 @@ func (l *Lexer) next_token() *Token {
 }
 
 func (l *Lexer) processComment() Token {
-	for l.Peek() != 
+	var sb strings.Builder
+
+	sb.WriteByte(l.reader.Peek())
+	for l.reader.Next() != '\n' {
+		l.reader.Next()
+	}
+
+	return Token{Typ: CommentToken, content: sb.String()}
 }

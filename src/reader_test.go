@@ -15,7 +15,7 @@ func TestReaderPeek(t *testing.T) {
 func TestReaderNext(t *testing.T) {
 	r := NewCharReader("abc")
 
-	if r.Next() != 'a' {
+	if r.Next() != 'c' {
 		t.Errorf(`NewReader("a").peek = %q, want "a", error`, r.Peek())
 	}
 	if r.Next() != 'b' {
@@ -37,5 +37,14 @@ func TestReaderEOF(t *testing.T) {
 
 	if !r.IsEOF() {
 		t.Errorf(`NewReader("a").peek = %q, want "true", error`, r.Peek())
+	}
+}
+
+func TestReaderNewLine(t *testing.T) {
+	r := NewCharReader(`
+	`)
+
+	if r.Peek() != '\n' { // new Line
+		t.Errorf(`NewReader("a").IsEOF = %v, want "10", error`, r.Peek())
 	}
 }
