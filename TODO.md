@@ -1,8 +1,11 @@
 # Todo
 
 - [X] CharReader
+  - [ ] Jump test
 - [ ] Lexer
   - [ ] next_token
     - [ ] string
-    - [ ] comment
+      - [X] Normal
+      - [ ] Multiline
+    - [X] comment
     - [ ] Number

@@ -1,6 +1,8 @@
 package src
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestLexerEOF(t *testing.T) {
 	l := NewLexer("")
@@ -19,4 +21,58 @@ func TestLexerUnitDef(t *testing.T) {
 	// if to.Typ == "EOF" {
 	// 	t.Errorf(`NewLexer("").next_token = %q, want "Token{typ: "EOF"}", error`, to)
 	// }
+}
+
+func TestLexerStringLiteral(t *testing.T) {
+	l := NewLexer("'eggs'")
+
+	tok := l.next_token()
+	if tok.Typ != "String" {
+		t.Errorf(`NewLexer("").next_token().Typ = %q, want "String", error`, tok.Typ)
+	}
+	if tok.content != "eggs" {
+		t.Errorf(`NewLexer("").next_token().content = %q, want "eggs", error`, tok.content)
+	}
+}
+
+// func TestLexerStringLiteralMulitline(t *testing.T) {
+// 	panic("Not yet implemented")
+
+// 	l := NewLexer(`'''
+// 	mulitline
+// 	'''`)
+
+// 	tok := l.next_token()
+// 	if tok.Typ != "String" {
+// 		t.Errorf(`NewLexer("").next_token().Typ = %q, want "String", error`, tok.Typ)
+// 	}
+
+// 	fmt.Println(tok.content)
+// 	if tok.content != "mulitline\n\t" {
+// 		t.Errorf(`NewLexer("").next_token().content = %q, want "\tmulitline\n\t", error`, tok.content)
+// 	}
+// }
+
+func TestLexerComment(t *testing.T) {
+	l := NewLexer("// Comment\n")
+
+	tok := l.next_token()
+	if tok.Typ != "Comment" {
+		t.Errorf(`NewLexer("").next_token().Typ = %q, want "Comment", error`, tok.Typ)
+	}
+	if tok.content != " Comment" {
+		t.Errorf(`NewLexer("").next_token().content = %q, want " Comment", error`, tok.content)
+	}
+}
+
+func TestLexerCommentMultiline(t *testing.T) {
+	l := NewLexer("{Comment\nNextLine}")
+
+	tok := l.next_token()
+	if tok.Typ != "Comment" {
+		t.Errorf(`NewLexer("").next_token().Typ = %q, want "Comment", error`, tok.Typ)
+	}
+	if tok.content != "Comment\nNextLine" {
+		t.Errorf(`NewLexer("").next_token().content = %q, want "Comment\nNextLine", error`, tok.content)
+	}
 }
