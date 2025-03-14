@@ -7,7 +7,20 @@ import (
 func TestReaderPeek(t *testing.T) {
 	r := NewCharReader("ab")
 
-	c, err := r.Peek(0)
+	c, err := r.Peek()
+	if err != nil {
+		t.Errorf(`NewReader("a").peek() = %q error`, err)
+	}
+
+	if c != 'a' {
+		t.Errorf(`NewReader("a").peek = %q, want "a", error`, c)
+	}
+}
+
+func TestReaderPeek_n(t *testing.T) {
+	r := NewCharReader("ab")
+
+	c, err := r.Peek_n(0)
 	if err != nil {
 		t.Errorf(`NewReader("a").peek() = %q error`, err)
 	}
@@ -16,7 +29,7 @@ func TestReaderPeek(t *testing.T) {
 		t.Errorf(`NewReader("a").peek = %q, want "a", error`, c)
 	}
 
-	c, err = r.Peek(1)
+	c, err = r.Peek_n(1)
 	if err != nil {
 		t.Errorf(`NewReader("a").peek() = %q error`, err)
 	}
@@ -57,7 +70,7 @@ func TestReaderWhitespace(t *testing.T) {
 	r := NewCharReader(`
 		`)
 
-	c, err := r.Peek(0)
+	c, err := r.Peek_n(0)
 	if err != nil {
 		t.Errorf(`NewReader("a").Next() = %q error`, err)
 	}
@@ -74,4 +87,23 @@ func TestReaderWhitespace(t *testing.T) {
 	if c != '\t' {
 		t.Errorf(`NewReader("a").IsEOF = %v, want "10", error`, c)
 	}
+}
+
+func TestReaderJump(t *testing.T) {
+	r := NewCharReader("abcd")
+
+	r.Jump(2)
+	c, _ := r.Peek()
+
+	if c != 'c' {
+		t.Errorf(`NewReader("a").IsEOF = %v, want "c", error`, c)
+	}
+
+	r.Jump(1)
+	c, _ = r.Peek()
+
+	if c != 'd' {
+		t.Errorf(`NewReader("a").IsEOF = %v, want "d", error`, c)
+	}
+
 }

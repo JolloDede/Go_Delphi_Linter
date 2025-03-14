@@ -43,7 +43,7 @@ func (l *Lexer) next_token() *Token {
 	if l.reader.IsEOF() {
 		return &Token{Typ: "EOF"}
 	}
-	char, err := l.reader.Peek(0)
+	char, err := l.reader.Peek()
 
 	if err != nil {
 		fmt.Println(err)
@@ -58,8 +58,17 @@ func (l *Lexer) next_token() *Token {
 	} else if ('A' <= char && char <= 'Z') || ('a' <= char && char <= 'z') {
 		// Parse code
 	} else if char == '/' || char == '{' {
-		// Parse comment
-		return l.processComment()
+		char, err = l.reader.Peek_n(1)
+		if err != nil {
+			panic("How did we get here")
+		}
+
+		if char == '$' {
+			return l.processCompilerFlags()
+		} else {
+			// Parse comment
+			return l.processComment()
+		}
 	} else {
 		panic("cannot parse, \"next_token\"")
 	}
@@ -72,7 +81,7 @@ func (l *Lexer) processComment() *Token {
 	var c byte
 	var err error
 
-	c, err = l.reader.Peek(0)
+	c, err = l.reader.Peek()
 
 	if err != nil {
 		fmt.Println(err)
@@ -95,7 +104,7 @@ func (l *Lexer) processComment() *Token {
 			sb.WriteByte(c)
 		}
 	} else {
-		c, err = l.reader.Peek(1)
+		c, err = l.reader.Peek_n(1)
 
 		if err != nil {
 			fmt.Println(err)
@@ -132,7 +141,7 @@ func (l *Lexer) processStringLiteral() *Token {
 
 	// Check multiline string
 	for {
-		c, err = l.reader.Peek(i)
+		c, err = l.reader.Peek_n(i)
 
 		if err != nil {
 			fmt.Println(err)
@@ -164,4 +173,8 @@ func (l *Lexer) processStringLiteral() *Token {
 	}
 
 	return &Token{Typ: StringToken, content: sb.String()}
+}
+
+func (l *Lexer) processCompilerFlags() *Token {
+	panic("Not Yet implemented")
 }
