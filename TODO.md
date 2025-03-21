@@ -1,7 +1,9 @@
 # Todo
 
 - [X] CharReader
-  - [ ] Jump test
+  - [X] Jump test
+  - [X] Col
+  - [X] Row
 - [ ] Lexer
   - [ ] next_token
     - [ ] string

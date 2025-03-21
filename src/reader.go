@@ -42,19 +42,24 @@ func (r *CharReader) Peek_n(i int) (byte, error) {
 
 func (r *CharReader) Next() (byte, error) {
 	r.index++
+	r.Col++
 
 	if r.index >= len(r.content) {
 		return ' ', &EOFError{}
 	}
 
+	if r.content[r.index] == '\n' {
+		r.Row++
+		r.Col = 0
+	}
+
 	return r.content[r.index], nil
 }
 
-func (r *CharReader) Next_n(i int) (byte, error) {
-	r.index += i
+func (r *CharReader) Next_n(n int) (byte, error) {
 
-	if r.index >= len(r.content) {
-		return ' ', &EOFError{}
+	for i := 0; i > n; i++ {
+		r.Next()
 	}
 
 	return r.content[r.index], nil

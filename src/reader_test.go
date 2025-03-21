@@ -107,3 +107,31 @@ func TestReaderJump(t *testing.T) {
 	}
 
 }
+
+func TestReaderCol(t *testing.T) {
+	r := NewCharReader("12")
+
+	if r.Col != 0 {
+		t.Errorf(`NewReader("12").Col = %v, want 0, error`, r.Col)
+	}
+
+	r.Next()
+
+	if r.Col != 1 {
+		t.Errorf(`NewReader("12").Col = %v, want 1, error`, r.Col)
+	}
+}
+
+func TestReaderRow(t *testing.T) {
+	r := NewCharReader("1\n2")
+
+	if r.Row != 0 {
+		t.Errorf(`NewReader("12").Row = %v, want 0, error`, r.Row)
+	}
+
+	r.Next()
+
+	if r.Row != 1 {
+		t.Errorf(`NewReader("12").Row = %v, want 1, error`, r.Row)
+	}
+}
