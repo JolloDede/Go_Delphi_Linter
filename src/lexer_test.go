@@ -76,3 +76,30 @@ func TestLexerCommentMultiline(t *testing.T) {
 		t.Errorf(`NewLexer("").next_token().content = %q, want "Comment\nNextLine", error`, tok.content)
 	}
 }
+
+func TestLexerConditionalCompilation(t *testing.T) {
+	l := NewLexer("{$DEFINE DEBUG}")
+
+	tok := l.next_token()
+	if tok.Typ != "CondComp" {
+		t.Errorf(`NewLexer("").next_token().Typ = %q, want "CondComp", error`, tok.Typ)
+	}
+	if tok.content != "$DEFINE DEBUG" {
+		t.Errorf(`NewLexer("").next_token().content = %q, want "$DEFINE DEBUG", error`, tok.content)
+	}
+}
+
+func TestLexerConditionalCompilationEOF(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf(`NewLexer("").next_token() panic was expected`)
+		}
+	}()
+
+	l := NewLexer("{$DEFINE DEBUG")
+
+	// Call the function that will panic
+	l.next_token()
+	// If the panic was not caught, the test will fail
+	t.Errorf(`NewLexer("").next_token() panic was expected`)
+}

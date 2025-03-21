@@ -12,8 +12,9 @@ type Lexer struct {
 type TokenTyp string
 
 const (
-	CommentToken TokenTyp = "Comment"
-	StringToken  TokenTyp = "String"
+	CommentToken              TokenTyp = "Comment"
+	StringToken               TokenTyp = "String"
+	ConditionalCompilingToken TokenTyp = "CondComp"
 )
 
 type Token struct {
@@ -60,13 +61,12 @@ func (l *Lexer) next_token() *Token {
 	} else if char == '/' || char == '{' {
 		char, err = l.reader.Peek_n(1)
 		if err != nil {
-			panic("How did we get here")
+			panic("\"next_token\" Comment")
 		}
 
 		if char == '$' {
-			return l.processCompilerFlags()
+			return l.processConditionalComilations()
 		} else {
-			// Parse comment
 			return l.processComment()
 		}
 	} else {
@@ -175,6 +175,21 @@ func (l *Lexer) processStringLiteral() *Token {
 	return &Token{Typ: StringToken, content: sb.String()}
 }
 
-func (l *Lexer) processCompilerFlags() *Token {
-	panic("Not Yet implemented")
+func (l *Lexer) processConditionalComilations() *Token {
+	var sb strings.Builder
+
+	for {
+		c, err := l.reader.Next()
+
+		if err != nil {
+			panic("\"processConditionalComilations\" EOF before close ConditionalCompilation")
+		}
+
+		if c == '}' {
+			break
+		}
+		sb.WriteByte(c)
+	}
+
+	return &Token{Typ: ConditionalCompilingToken, content: sb.String()}
 }
