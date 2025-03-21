@@ -9,22 +9,6 @@ type Lexer struct {
 	reader CharReader
 }
 
-type TokenTyp string
-
-const (
-	CommentToken              TokenTyp = "Comment"
-	StringToken               TokenTyp = "String"
-	ConditionalCompilingToken TokenTyp = "CondComp"
-)
-
-type Token struct {
-	Typ     TokenTyp
-	content string
-
-	row int
-	col int
-}
-
 func NewLexer(input string) Lexer {
 	return Lexer{reader: NewCharReader(input)}
 }
@@ -130,7 +114,7 @@ func (l *Lexer) processComment() *Token {
 		}
 	}
 
-	return &Token{Typ: CommentToken, content: sb.String()}
+	return NewToken(CommentToken, sb.String(), l.reader.Row, l.reader.Col)
 }
 
 func (l *Lexer) processStringLiteral() *Token {
@@ -172,7 +156,7 @@ func (l *Lexer) processStringLiteral() *Token {
 		sb.WriteByte(c)
 	}
 
-	return &Token{Typ: StringToken, content: sb.String()}
+	return NewToken(StringToken, sb.String(), l.reader.Row, l.reader.Col)
 }
 
 func (l *Lexer) processConditionalComilations() *Token {
@@ -191,5 +175,5 @@ func (l *Lexer) processConditionalComilations() *Token {
 		sb.WriteByte(c)
 	}
 
-	return &Token{Typ: ConditionalCompilingToken, content: sb.String()}
+	return NewToken(ConditionalCompilingToken, sb.String(), l.reader.Row, l.reader.Col)
 }
