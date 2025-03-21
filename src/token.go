@@ -6,6 +6,7 @@ const (
 	CommentToken              TokenTyp = "Comment"
 	StringToken               TokenTyp = "String"
 	ConditionalCompilingToken TokenTyp = "CondComp"
+	EOFToken                  TokenTyp = "EOF"
 )
 
 type Token struct {

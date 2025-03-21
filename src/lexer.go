@@ -26,7 +26,7 @@ func (l *Lexer) Next() *Token {
 
 func (l *Lexer) next_token() *Token {
 	if l.reader.IsEOF() {
-		return &Token{Typ: "EOF"}
+		return NewToken(EOFToken, "", l.reader.Row, l.reader.Col)
 	}
 	char, err := l.reader.Peek()
 
