@@ -5,6 +5,7 @@ type TokenTyp string
 const (
 	CommentToken              TokenTyp = "Comment"
 	StringToken               TokenTyp = "String"
+	NumberToken               TokenTyp = "Number"
 	ConditionalCompilingToken TokenTyp = "CondComp"
 	EOFToken                  TokenTyp = "EOF"
 )

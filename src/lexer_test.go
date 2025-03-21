@@ -103,3 +103,27 @@ func TestLexerConditionalCompilationEOF(t *testing.T) {
 	// If the panic was not caught, the test will fail
 	t.Errorf(`NewLexer("").next_token() panic was expected`)
 }
+
+func TestLexerNumber(t *testing.T) {
+	l := NewLexer("123;")
+
+	tok := l.next_token()
+	if tok.Typ != "Number" {
+		t.Errorf(`NewLexer("").next_token().Typ = %q, want "Number", error`, tok.Typ)
+	}
+	if tok.content != "123" {
+		t.Errorf(`NewLexer("").next_token().content = %q, want "123;", error`, tok.content)
+	}
+}
+
+func TestLexerFloatNumber(t *testing.T) {
+	l := NewLexer("123.123;")
+
+	tok := l.next_token()
+	if tok.Typ != "Number" {
+		t.Errorf(`NewLexer("").next_token().Typ = %q, want "Number", error`, tok.Typ)
+	}
+	if tok.content != "123.123" {
+		t.Errorf(`NewLexer("").next_token().content = %q, want "123.123", error`, tok.content)
+	}
+}

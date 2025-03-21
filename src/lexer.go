@@ -40,6 +40,7 @@ func (l *Lexer) next_token() *Token {
 		return l.processStringLiteral()
 	} else if '0' <= char && char <= '9' {
 		// Parse numeric
+		return l.processNumber()
 	} else if ('A' <= char && char <= 'Z') || ('a' <= char && char <= 'z') {
 		// Parse code
 	} else if char == '/' || char == '{' {
@@ -176,4 +177,34 @@ func (l *Lexer) processConditionalComilations() *Token {
 	}
 
 	return NewToken(ConditionalCompilingToken, sb.String(), l.reader.Row, l.reader.Col)
+}
+
+func (l *Lexer) processNumber() *Token {
+	var sb strings.Builder
+	c, err := l.reader.Peek()
+
+	if err != nil {
+		fmt.Println(err)
+		panic("How did we get here \"processNumber\"")
+	}
+
+	sb.WriteByte(c)
+
+	for {
+		c, err = l.reader.Next()
+
+		if err != nil {
+			panic("\"processNumber\" EOF before close Number")
+		}
+
+		if '0' <= c && c <= '9' {
+			sb.WriteByte(c)
+		} else if c == '.' {
+			sb.WriteByte(c)
+		} else {
+			break
+		}
+	}
+
+	return NewToken(NumberToken, sb.String(), l.reader.Row, l.reader.Col)
 }
