@@ -36,10 +36,8 @@ func (l *Lexer) next_token() *Token {
 	}
 
 	if char == '\'' {
-		// Parse string
 		return l.processStringLiteral()
 	} else if '0' <= char && char <= '9' {
-		// Parse numeric
 		return l.processNumber()
 	} else if ('A' <= char && char <= 'Z') || ('a' <= char && char <= 'z') {
 		// Parse code
