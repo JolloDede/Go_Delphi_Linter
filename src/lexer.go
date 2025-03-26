@@ -1,7 +1,6 @@
 package src
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -28,12 +27,7 @@ func (l *Lexer) next_token() *Token {
 	if l.reader.IsEOF() {
 		return NewToken(EOFToken, "", l.reader.Row, l.reader.Col)
 	}
-	char, err := l.reader.Peek()
-
-	if err != nil {
-		fmt.Println(err)
-		panic("How did we get here")
-	}
+	char := l.reader.Peek()
 
 	if char == '\'' {
 		return l.processStringLiteral()
@@ -42,10 +36,7 @@ func (l *Lexer) next_token() *Token {
 	} else if ('A' <= char && char <= 'Z') || ('a' <= char && char <= 'z') {
 		// Parse code
 	} else if char == '/' || char == '{' {
-		char, err = l.reader.Peek_n(1)
-		if err != nil {
-			panic("\"next_token\" Comment")
-		}
+		char = l.reader.Peek_n(1)
 
 		if char == '$' {
 			return l.processConditionalComilations()
@@ -62,23 +53,12 @@ func (l *Lexer) next_token() *Token {
 func (l *Lexer) processComment() *Token {
 	var sb strings.Builder
 	var c byte
-	var err error
 
-	c, err = l.reader.Peek()
-
-	if err != nil {
-		fmt.Println(err)
-		panic("How did we get here \"processComment\"")
-	}
+	c = l.reader.Peek()
 
 	if c == '{' {
 		for {
-			c, err = l.reader.Next()
-
-			if err != nil {
-				fmt.Println(err)
-				panic("How did we get here \"processComment\"")
-			}
+			c = l.reader.Next()
 
 			if c == '}' {
 				break
@@ -87,22 +67,12 @@ func (l *Lexer) processComment() *Token {
 			sb.WriteByte(c)
 		}
 	} else {
-		c, err = l.reader.Peek_n(1)
-
-		if err != nil {
-			fmt.Println(err)
-			panic("How did we get here \"processComment\"")
-		}
+		c = l.reader.Peek_n(1)
 
 		if c == '/' {
 			l.reader.Jump(1)
 			for {
-				c, err = l.reader.Next()
-
-				if err != nil {
-					fmt.Println(err)
-					panic("How did we get here \"processComment\"")
-				}
+				c = l.reader.Next()
 
 				if c == '\n' {
 					break
@@ -119,17 +89,11 @@ func (l *Lexer) processComment() *Token {
 func (l *Lexer) processStringLiteral() *Token {
 	var sb strings.Builder
 	var c byte
-	var err error
 	i := 0
 
 	// Check multiline string
 	for {
-		c, err = l.reader.Peek_n(i)
-
-		if err != nil {
-			fmt.Println(err)
-			panic("How did we get here \"processStringLiteral\"")
-		}
+		c = l.reader.Peek_n(i)
 
 		if c != '\'' && i > 1 && i%2 != 0 {
 			break
@@ -141,12 +105,7 @@ func (l *Lexer) processStringLiteral() *Token {
 	l.reader.Jump(i)
 
 	for {
-		c, err = l.reader.Next()
-
-		if err != nil {
-			fmt.Println(err)
-			panic("How did we get here \"processStringLiteral\"")
-		}
+		c = l.reader.Next()
 
 		if c == '\'' {
 			break
@@ -162,11 +121,7 @@ func (l *Lexer) processConditionalComilations() *Token {
 	var sb strings.Builder
 
 	for {
-		c, err := l.reader.Next()
-
-		if err != nil {
-			panic("\"processConditionalComilations\" EOF before close ConditionalCompilation")
-		}
+		c := l.reader.Next()
 
 		if c == '}' {
 			break
@@ -179,21 +134,12 @@ func (l *Lexer) processConditionalComilations() *Token {
 
 func (l *Lexer) processNumber() *Token {
 	var sb strings.Builder
-	c, err := l.reader.Peek()
-
-	if err != nil {
-		fmt.Println(err)
-		panic("How did we get here \"processNumber\"")
-	}
+	c := l.reader.Peek()
 
 	sb.WriteByte(c)
 
 	for {
-		c, err = l.reader.Next()
-
-		if err != nil {
-			panic("\"processNumber\" EOF before close Number")
-		}
+		c = l.reader.Next()
 
 		if '0' <= c && c <= '9' {
 			sb.WriteByte(c)

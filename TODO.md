@@ -4,6 +4,7 @@
   - [X] Jump test
   - [X] Col
   - [X] Row
+  - [X] Refactor error to panic
 - [ ] Lexer
   - [ ] next_token
     - [ ] string

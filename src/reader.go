@@ -23,29 +23,26 @@ func NewCharReader(input string) CharReader {
 	return CharReader{content: input, Row: 0, Col: 0, index: 0}
 }
 
-func (r *CharReader) Peek() (byte, error) {
+func (r *CharReader) Peek() byte {
 	if r.index > len(r.content)-1 {
-		return ' ', &EOFError{}
+		panic("Peek EOF")
 	}
-	return r.content[r.index], nil
+	return r.content[r.index]
 }
 
-func (r *CharReader) Peek_n(i int) (byte, error) {
-	if i < 0 {
-		return ' ', &OOBError{}
-	}
+func (r *CharReader) Peek_n(i int) byte {
 	if i > len(r.content)-1 {
-		return ' ', &EOFError{}
+		panic("Peek_n EOF")
 	}
-	return r.content[i], nil
+	return r.content[i]
 }
 
-func (r *CharReader) Next() (byte, error) {
+func (r *CharReader) Next() byte {
 	r.index++
 	r.Col++
 
 	if r.index >= len(r.content) {
-		return ' ', &EOFError{}
+		panic("Next EOF")
 	}
 
 	if r.content[r.index] == '\n' {
@@ -53,16 +50,16 @@ func (r *CharReader) Next() (byte, error) {
 		r.Col = 0
 	}
 
-	return r.content[r.index], nil
+	return r.content[r.index]
 }
 
-func (r *CharReader) Next_n(n int) (byte, error) {
+func (r *CharReader) Next_n(n int) byte {
 
 	for i := 0; i > n; i++ {
 		r.Next()
 	}
 
-	return r.content[r.index], nil
+	return r.content[r.index]
 }
 
 func (r *CharReader) Jump(i int) {
@@ -70,5 +67,5 @@ func (r *CharReader) Jump(i int) {
 }
 
 func (r *CharReader) IsEOF() bool {
-	return r.index >= len(r.content)
+	return r.index >= len(r.content)-1
 }

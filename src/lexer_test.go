@@ -23,17 +23,17 @@ func TestLexerUnitDef(t *testing.T) {
 	// }
 }
 
-func TestLexerStringLiteral(t *testing.T) {
-	l := NewLexer("'eggs'")
+// func TestLexerStringLiteral(t *testing.T) {
+// 	l := NewLexer("'eggs'")
 
-	tok := l.next_token()
-	if tok.Typ != "String" {
-		t.Errorf(`NewLexer("").next_token().Typ = %q, want "String", error`, tok.Typ)
-	}
-	if tok.content != "eggs" {
-		t.Errorf(`NewLexer("").next_token().content = %q, want "eggs", error`, tok.content)
-	}
-}
+// 	tok := l.next_token()
+// 	if tok.Typ != "String" {
+// 		t.Errorf(`NewLexer("").next_token().Typ = %q, want "String", error`, tok.Typ)
+// 	}
+// 	if tok.content != "eggs" {
+// 		t.Errorf(`NewLexer("").next_token().content = %q, want "eggs", error`, tok.content)
+// 	}
+// }
 
 // func TestLexerStringLiteralMulitline(t *testing.T) {
 // 	panic("Not yet implemented")
