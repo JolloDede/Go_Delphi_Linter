@@ -31,10 +31,10 @@ func (r *CharReader) Peek() byte {
 }
 
 func (r *CharReader) Peek_n(i int) byte {
-	if i > len(r.content)-1 {
+	if r.index+i > len(r.content)-1 {
 		panic("Peek_n EOF")
 	}
-	return r.content[i]
+	return r.content[r.index+i]
 }
 
 func (r *CharReader) Next() byte {

@@ -7,9 +7,11 @@
   - [X] Refactor error to panic
 - [ ] Lexer
   - [ ] next_token
-    - [ ] string
+    - [X] string
       - [X] Normal
-      - [ ] Multiline
+      - [X] Multiline
     - [X] comment
     - [X] Number
     - [X] Conditional Compilation
+    - [ ] keyword
+    - [ ] Operators

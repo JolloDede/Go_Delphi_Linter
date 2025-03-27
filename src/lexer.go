@@ -89,26 +89,46 @@ func (l *Lexer) processComment() *Token {
 func (l *Lexer) processStringLiteral() *Token {
 	var sb strings.Builder
 	var c byte
-	i := 0
+	i := 1
 
 	// Check multiline string
 	for {
 		c = l.reader.Peek_n(i)
 
-		if c != '\'' && i > 1 && i%2 != 0 {
+		if c != '\'' {
 			break
 		}
 
 		i++
 	}
 
-	l.reader.Jump(i)
+	if i > 1 {
+		l.reader.Jump(i)
+	}
 
 	for {
 		c = l.reader.Next()
 
 		if c == '\'' {
-			break
+			j := 1
+
+			for {
+				if l.reader.Peek_n(j) != '\'' {
+					break
+				}
+
+				j++
+			}
+
+			if j%2 != 0 {
+				if j != i {
+					panic("Wrong string")
+				}
+
+				break
+			} else {
+				l.reader.Next()
+			}
 		}
 
 		sb.WriteByte(c)

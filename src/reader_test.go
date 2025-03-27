@@ -33,7 +33,9 @@ func TestReaderPeekPanik(t *testing.T) {
 }
 
 func TestReaderPeek_n(t *testing.T) {
-	r := NewCharReader("ab")
+	r := NewCharReader(" ab")
+
+	r.Next()
 
 	c := r.Peek_n(0)
 
