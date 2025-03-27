@@ -5,8 +5,6 @@ import (
 	"strings"
 )
 
-var operators = []byte{'+', '-', '*', '/', '=', ';', ':'}
-
 type Lexer struct {
 	reader CharReader
 }
@@ -23,6 +21,8 @@ func (l *Lexer) Next() *Token {
 	return l.next_token()
 }
 
+var operators = []byte{'+', '-', '*', '/', '=', ';', ':'}
+
 func (l *Lexer) next_token() *Token {
 	if l.reader.IsEOF() {
 		return NewToken(EOFToken, "", l.reader.Row, l.reader.Col)
@@ -35,6 +35,8 @@ func (l *Lexer) next_token() *Token {
 		return l.processNumber()
 	} else if ('A' <= char && char <= 'Z') || ('a' <= char && char <= 'z') {
 		// Parse code
+		return l.processAlphanumeric()
+		//
 	} else if (char == '/' && l.reader.Peek_n(1) == '/') || char == '{' {
 		char = l.reader.Peek_n(1)
 
@@ -182,4 +184,16 @@ func (l *Lexer) processOperator() *Token {
 	l.reader.Jump(1)
 
 	return NewToken(OperatorToken, string(c), l.reader.Row, l.reader.Col)
+}
+
+var keywords = []string{"begin", "end", "unit", "interface", "implementation", "class", "record", "initialization", "finalization", "if", "then", "for, while", "do"}
+
+func (l *Lexer) processAlphanumeric() *Token {
+	var sb strings.Builder
+
+	if slices.Contains(keywords, sb.String()) {
+		return NewToken(KeywordToken, sb.String(), l.reader.Row, l.reader.Col)
+	} else {
+		return NewToken(IdentifierToken, sb.String(), l.reader.Row, l.reader.Col)
+	}
 }
