@@ -1,8 +1,11 @@
 package src
 
 import (
+	"slices"
 	"strings"
 )
+
+var operators = []byte{'+', '-', '*', '/', '=', ';', ':'}
 
 type Lexer struct {
 	reader CharReader
@@ -13,13 +16,10 @@ func NewLexer(input string) Lexer {
 }
 
 func (l *Lexer) Peek() *Token {
-	// return r.content[r.i+1]
 	return l.next_token()
 }
 
 func (l *Lexer) Next() *Token {
-	// 	r.i++
-	// 	return r.content[r.i]
 	return l.next_token()
 }
 
@@ -35,6 +35,9 @@ func (l *Lexer) next_token() *Token {
 		return l.processNumber()
 	} else if ('A' <= char && char <= 'Z') || ('a' <= char && char <= 'z') {
 		// Parse code
+	} else if slices.Contains(operators, char) {
+		// process operators
+		return l.processOperator()
 	} else if char == '/' || char == '{' {
 		char = l.reader.Peek_n(1)
 
@@ -171,4 +174,8 @@ func (l *Lexer) processNumber() *Token {
 	}
 
 	return NewToken(NumberToken, sb.String(), l.reader.Row, l.reader.Col)
+}
+
+func (l *Lexer) processOperator() *Token {
+	panic("Not yet implemented")
 }
