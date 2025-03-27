@@ -85,10 +85,10 @@ func TestLexerComment(t *testing.T) {
 
 	tok := l.next_token()
 	if tok.Typ != "Comment" {
-		t.Errorf(`NewLexer("").next_token().Typ = %q, want "Comment", error`, tok.Typ)
+		t.Errorf(`NewLexer("// Comment\n").next_token().Typ = %q, want "Comment", error`, tok.Typ)
 	}
 	if tok.content != " Comment" {
-		t.Errorf(`NewLexer("").next_token().content = %q, want " Comment", error`, tok.content)
+		t.Errorf(`NewLexer("// Comment\n").next_token().content = %q, want " Comment", error`, tok.content)
 	}
 }
 
@@ -97,10 +97,10 @@ func TestLexerCommentMultiline(t *testing.T) {
 
 	tok := l.next_token()
 	if tok.Typ != "Comment" {
-		t.Errorf(`NewLexer("").next_token().Typ = %q, want "Comment", error`, tok.Typ)
+		t.Errorf(`NewLexer("{Comment\nNextLine}").next_token().Typ = %q, want "Comment", error`, tok.Typ)
 	}
 	if tok.content != "Comment\nNextLine" {
-		t.Errorf(`NewLexer("").next_token().content = %q, want "Comment\nNextLine", error`, tok.content)
+		t.Errorf(`NewLexer("{Comment\nNextLine}").next_token().content = %q, want "Comment\nNextLine", error`, tok.content)
 	}
 }
 

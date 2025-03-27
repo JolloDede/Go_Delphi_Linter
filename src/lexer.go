@@ -35,10 +35,7 @@ func (l *Lexer) next_token() *Token {
 		return l.processNumber()
 	} else if ('A' <= char && char <= 'Z') || ('a' <= char && char <= 'z') {
 		// Parse code
-	} else if slices.Contains(operators, char) {
-		// process operators
-		return l.processOperator()
-	} else if char == '/' || char == '{' {
+	} else if (char == '/' && l.reader.Peek_n(1) == '/') || char == '{' {
 		char = l.reader.Peek_n(1)
 
 		if char == '$' {
@@ -46,6 +43,9 @@ func (l *Lexer) next_token() *Token {
 		} else {
 			return l.processComment()
 		}
+	} else if slices.Contains(operators, char) {
+		// process operators
+		return l.processOperator()
 	} else {
 		panic("cannot parse, \"next_token\"")
 	}
