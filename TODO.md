@@ -14,4 +14,4 @@
     - [X] Number
     - [X] Conditional Compilation
     - [ ] keyword
-    - [ ] Operators
+    - [X] Operators
