@@ -11,5 +11,5 @@
       - [X] Normal
       - [ ] Multiline
     - [X] comment
-    - [ ] Number
+    - [X] Number
     - [X] Conditional Compilation
