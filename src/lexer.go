@@ -177,5 +177,9 @@ func (l *Lexer) processNumber() *Token {
 }
 
 func (l *Lexer) processOperator() *Token {
-	panic("Not yet implemented")
+	c := l.reader.Peek()
+
+	l.reader.Jump(1)
+
+	return NewToken(OperatorToken, string(c), l.reader.Row, l.reader.Col)
 }

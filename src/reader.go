@@ -67,5 +67,5 @@ func (r *CharReader) Jump(i int) {
 }
 
 func (r *CharReader) IsEOF() bool {
-	return r.index >= len(r.content)-1
+	return r.index > len(r.content)-1
 }
