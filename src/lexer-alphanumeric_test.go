@@ -20,9 +20,9 @@ func TestLexerIdentifiers(t *testing.T) {
 
 	tok := l.next_token()
 	if tok.Typ != "Identifier" {
-		t.Errorf(`NewLexer("").next_token().Typ = %q, want "Number", error`, tok.Typ)
+		t.Errorf(`NewLexer("UMain").next_token().Typ = %q, want "Identifier", error`, tok.Typ)
 	}
 	if tok.content != "UMain" {
-		t.Errorf(`NewLexer("").next_token().content = %q, want "123;", error`, tok.content)
+		t.Errorf(`NewLexer("UMain").next_token().content = %q, want "UMain", error`, tok.content)
 	}
 }

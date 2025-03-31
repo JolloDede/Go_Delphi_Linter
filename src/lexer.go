@@ -191,6 +191,16 @@ var keywords = []string{"begin", "end", "unit", "interface", "implementation", "
 func (l *Lexer) processAlphanumeric() *Token {
 	var sb strings.Builder
 
+	sb.WriteByte(l.reader.Peek())
+
+	for {
+		c := l.reader.Next()
+
+		if slices.Contains([]byte{}, c) {
+
+		}
+	}
+
 	if slices.Contains(keywords, sb.String()) {
 		return NewToken(KeywordToken, sb.String(), l.reader.Row, l.reader.Col)
 	} else {
