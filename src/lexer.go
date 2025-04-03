@@ -199,6 +199,12 @@ func (l *Lexer) processAlphanumeric() *Token {
 		if slices.Contains([]byte{}, c) {
 
 		}
+		// maybe add some more this that can be in a identifier
+		if ('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z') || ('0' <= c && c <= '9') || (c == '_') {
+			sb.WriteByte(c)
+		} else {
+			break
+		}
 	}
 
 	if slices.Contains(keywords, sb.String()) {
