@@ -13,31 +13,32 @@ func (e *OOBError) Error() string {
 }
 
 type CharReader struct {
-	content string
+	content []rune
 	index   int
 	Row     int
 	Col     int
 }
 
 func NewCharReader(input string) CharReader {
-	return CharReader{content: input, Row: 0, Col: 0, index: 0}
+	return CharReader{content: []rune(input), Row: 0, Col: 0, index: 0}
 }
 
-func (r *CharReader) Peek() byte {
+func (r *CharReader) Peek() rune {
 	if r.index > len(r.content)-1 {
 		panic("Peek EOF")
 	}
+
 	return r.content[r.index]
 }
 
-func (r *CharReader) Peek_n(i int) byte {
+func (r *CharReader) Peek_n(i int) rune {
 	if r.index+i > len(r.content)-1 {
 		panic("Peek_n EOF")
 	}
 	return r.content[r.index+i]
 }
 
-func (r *CharReader) Next() byte {
+func (r *CharReader) Next() rune {
 	r.index++
 	r.Col++
 
@@ -53,7 +54,7 @@ func (r *CharReader) Next() byte {
 	return r.content[r.index]
 }
 
-func (r *CharReader) Next_n(n int) byte {
+func (r *CharReader) Next_n(n int) rune {
 
 	for i := 0; i > n; i++ {
 		r.Next()

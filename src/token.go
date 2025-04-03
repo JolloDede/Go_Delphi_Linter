@@ -11,6 +11,7 @@ const (
 	OperatorToken             TokenTyp = "Token"
 	KeywordToken              TokenTyp = "Keyword"
 	IdentifierToken           TokenTyp = "Identifier"
+	WhiteSpaceToken           TokenTyp = "Whitespace"
 )
 
 type Token struct {

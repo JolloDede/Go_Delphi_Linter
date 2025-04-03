@@ -3,6 +3,7 @@ package src
 import (
 	"slices"
 	"strings"
+	"unicode"
 )
 
 type Lexer struct {
@@ -21,13 +22,17 @@ func (l *Lexer) Next() *Token {
 	return l.next_token()
 }
 
-var operators = []byte{'+', '-', '*', '/', '=', ';', ':'}
+var operators = []rune{'+', '-', '*', '/', '=', ';', ':'}
 
 func (l *Lexer) next_token() *Token {
 	if l.reader.IsEOF() {
 		return NewToken(EOFToken, "", l.reader.Row, l.reader.Col)
 	}
 	char := l.reader.Peek()
+
+	if unicode.IsSpace(char) {
+		l.processWhitespace()
+	}
 
 	if char == '\'' {
 		return l.processStringLiteral()
@@ -51,13 +56,11 @@ func (l *Lexer) next_token() *Token {
 	} else {
 		panic("cannot parse, \"next_token\"")
 	}
-
-	return nil
 }
 
 func (l *Lexer) processComment() *Token {
 	var sb strings.Builder
-	var c byte
+	var c rune
 
 	c = l.reader.Peek()
 
@@ -69,7 +72,7 @@ func (l *Lexer) processComment() *Token {
 				break
 			}
 
-			sb.WriteByte(c)
+			sb.WriteRune(c)
 		}
 	} else {
 		c = l.reader.Peek_n(1)
@@ -83,7 +86,7 @@ func (l *Lexer) processComment() *Token {
 					break
 				}
 
-				sb.WriteByte(c)
+				sb.WriteRune(c)
 			}
 		}
 	}
@@ -93,7 +96,7 @@ func (l *Lexer) processComment() *Token {
 
 func (l *Lexer) processStringLiteral() *Token {
 	var sb strings.Builder
-	var c byte
+	var c rune
 	i := 1
 
 	// Check multiline string
@@ -136,7 +139,7 @@ func (l *Lexer) processStringLiteral() *Token {
 			}
 		}
 
-		sb.WriteByte(c)
+		sb.WriteRune(c)
 	}
 
 	return NewToken(StringToken, sb.String(), l.reader.Row, l.reader.Col)
@@ -151,7 +154,7 @@ func (l *Lexer) processConditionalComilations() *Token {
 		if c == '}' {
 			break
 		}
-		sb.WriteByte(c)
+		sb.WriteRune(c)
 	}
 
 	return NewToken(ConditionalCompilingToken, sb.String(), l.reader.Row, l.reader.Col)
@@ -161,15 +164,15 @@ func (l *Lexer) processNumber() *Token {
 	var sb strings.Builder
 	c := l.reader.Peek()
 
-	sb.WriteByte(c)
+	sb.WriteRune(c)
 
 	for {
 		c = l.reader.Next()
 
 		if '0' <= c && c <= '9' {
-			sb.WriteByte(c)
+			sb.WriteRune(c)
 		} else if c == '.' {
-			sb.WriteByte(c)
+			sb.WriteRune(c)
 		} else {
 			break
 		}
@@ -191,17 +194,14 @@ var keywords = []string{"begin", "end", "unit", "interface", "implementation", "
 func (l *Lexer) processAlphanumeric() *Token {
 	var sb strings.Builder
 
-	sb.WriteByte(l.reader.Peek())
+	sb.WriteRune(l.reader.Peek())
 
 	for {
 		c := l.reader.Next()
 
-		if slices.Contains([]byte{}, c) {
-
-		}
 		// maybe add some more this that can be in a identifier
 		if ('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z') || ('0' <= c && c <= '9') || (c == '_') {
-			sb.WriteByte(c)
+			sb.WriteRune(c)
 		} else {
 			break
 		}
@@ -212,4 +212,20 @@ func (l *Lexer) processAlphanumeric() *Token {
 	} else {
 		return NewToken(IdentifierToken, sb.String(), l.reader.Row, l.reader.Col)
 	}
+}
+
+func (l *Lexer) processWhitespace() *Token {
+	var sb strings.Builder
+	var c rune
+
+	sb.WriteRune(l.reader.Peek())
+	for {
+		c = l.reader.Next()
+		if !unicode.IsSpace(c) {
+			break
+		}
+		sb.WriteRune(c)
+	}
+
+	return NewToken(WhiteSpaceToken, sb.String(), l.reader.Row, l.reader.Col)
 }

@@ -13,5 +13,6 @@
     - [X] comment
     - [X] Number
     - [X] Conditional Compilation
-    - [ ] keyword
+    - [X] keyword
     - [X] Operators
+- [ ] refactor byte with rune
