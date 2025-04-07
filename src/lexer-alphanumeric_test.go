@@ -135,14 +135,14 @@ func TestLexerKeywords(t *testing.T) {
 		t.Errorf(`NewLexer("for ").next_token().content = %q, want "for", error`, tok.content)
 	}
 
-	l = NewLexer("h ")
+	l = NewLexer("while ")
 
 	tok = l.next_token()
 	if tok.Typ != KeywordToken {
-		t.Errorf(`NewLexer("h ").next_token().Typ = %q, want "Keyword", error`, tok.Typ)
+		t.Errorf(`NewLexer("while ").next_token().Typ = %q, want "Keyword", error`, tok.Typ)
 	}
 	if tok.content != "while" {
-		t.Errorf(`NewLexer("h ").next_token().content = %q, want "while", error`, tok.content)
+		t.Errorf(`NewLexer("while ").next_token().content = %q, want "while", error`, tok.content)
 	}
 
 	l = NewLexer("do ")

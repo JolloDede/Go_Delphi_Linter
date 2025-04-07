@@ -189,7 +189,7 @@ func (l *Lexer) processOperator() *Token {
 	return NewToken(OperatorToken, string(c), l.reader.Row, l.reader.Col)
 }
 
-var keywords = []string{"begin", "end", "unit", "interface", "implementation", "class", "record", "initialization", "finalization", "if", "then", "for, while", "do"}
+var keywords = []string{"begin", "end", "unit", "interface", "implementation", "class", "record", "initialization", "finalization", "if", "then", "for", "while", "do"}
 
 func (l *Lexer) processAlphanumeric() *Token {
 	var sb strings.Builder
