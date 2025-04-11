@@ -8,6 +8,10 @@ const (
 	NumberToken               TokenTyp = "Number"
 	ConditionalCompilingToken TokenTyp = "CondComp"
 	EOFToken                  TokenTyp = "EOF"
+	OperatorToken             TokenTyp = "Token"
+	KeywordToken              TokenTyp = "Keyword"
+	IdentifierToken           TokenTyp = "Identifier"
+	WhiteSpaceToken           TokenTyp = "Whitespace"
 )
 
 type Token struct {

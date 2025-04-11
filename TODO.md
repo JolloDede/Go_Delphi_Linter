@@ -4,11 +4,15 @@
   - [X] Jump test
   - [X] Col
   - [X] Row
+  - [X] Refactor error to panic
 - [ ] Lexer
   - [ ] next_token
-    - [ ] string
+    - [X] string
       - [X] Normal
-      - [ ] Multiline
+      - [X] Multiline
     - [X] comment
-    - [ ] Number
+    - [X] Number
     - [X] Conditional Compilation
+    - [X] keyword
+    - [X] Operators
+- [ ] refactor byte with rune
