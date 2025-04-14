@@ -1,11 +1,13 @@
-package src
+package reader_test
 
 import (
 	"testing"
+
+	"github.com/JolloDede/Go_Delphi_Linter/reader"
 )
 
 func TestReaderPeek(t *testing.T) {
-	r := NewCharReader("ab")
+	r := reader.NewCharReader("ab")
 
 	c := r.Peek()
 	if c != 'a' {
@@ -24,7 +26,7 @@ func TestReaderPeekPanik(t *testing.T) {
 		}
 	}()
 
-	r := NewCharReader("")
+	r := reader.NewCharReader("")
 
 	// Call the function that will panic
 	r.Peek()
@@ -33,7 +35,7 @@ func TestReaderPeekPanik(t *testing.T) {
 }
 
 func TestReaderPeek_n(t *testing.T) {
-	r := NewCharReader(" ab")
+	r := reader.NewCharReader(" ab")
 
 	r.Next()
 
@@ -57,7 +59,7 @@ func TestReaderPeek_nPanik(t *testing.T) {
 		}
 	}()
 
-	r := NewCharReader("12")
+	r := reader.NewCharReader("12")
 
 	// Call the function that will panic
 	r.Peek_n(3)
@@ -66,7 +68,7 @@ func TestReaderPeek_nPanik(t *testing.T) {
 }
 
 func TestReaderNext(t *testing.T) {
-	r := NewCharReader("ab")
+	r := reader.NewCharReader("ab")
 
 	c := r.Next()
 
@@ -78,20 +80,20 @@ func TestReaderNext(t *testing.T) {
 func TestReaderNextPanik(t *testing.T) {
 	defer func() {
 		if r := recover(); r == nil {
-			t.Errorf(`NewCharReader("1").Next() panic was expected`)
+			t.Errorf(`reader.NewCharReader("1").Next() panic was expected`)
 		}
 	}()
 
-	r := NewCharReader("1")
+	r := reader.NewCharReader("1")
 
 	// Call the function that will panic
 	r.Next()
 	// If the panic was not caught, the test will fail
-	t.Errorf(`NewCharReader("1").Next(3) panic was expected`)
+	t.Errorf(`reader.NewCharReader("1").Next(3) panic was expected`)
 }
 
 func TestReaderEOF(t *testing.T) {
-	r := NewCharReader("ab")
+	r := reader.NewCharReader("ab")
 
 	if r.IsEOF() {
 		t.Errorf(`NewReader("ab").IsEOF = %v, want "false", error`, r.IsEOF())
@@ -105,7 +107,7 @@ func TestReaderEOF(t *testing.T) {
 }
 
 func TestReaderWhitespace(t *testing.T) {
-	r := NewCharReader(`
+	r := reader.NewCharReader(`
 		`)
 
 	c := r.Peek_n(0)
@@ -122,7 +124,7 @@ func TestReaderWhitespace(t *testing.T) {
 }
 
 func TestReaderJump(t *testing.T) {
-	r := NewCharReader("abcd")
+	r := reader.NewCharReader("abcd")
 
 	r.Jump(2)
 	c := r.Peek()
@@ -141,7 +143,7 @@ func TestReaderJump(t *testing.T) {
 }
 
 func TestReaderCol(t *testing.T) {
-	r := NewCharReader("12")
+	r := reader.NewCharReader("12")
 
 	if r.Col != 0 {
 		t.Errorf(`NewReader("12").Col = %v, want 0, error`, r.Col)
@@ -155,7 +157,7 @@ func TestReaderCol(t *testing.T) {
 }
 
 func TestReaderRow(t *testing.T) {
-	r := NewCharReader("1\n2")
+	r := reader.NewCharReader("1\n2")
 
 	if r.Row != 0 {
 		t.Errorf(`NewReader("12").Row = %v, want 0, error`, r.Row)

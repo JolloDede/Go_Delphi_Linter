@@ -1,6 +1,8 @@
-package src
+package lexer
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestLexerIdentifiers(t *testing.T) {
 	l := NewLexer("UMain ")
