@@ -33,7 +33,7 @@ func (l *Lexer) next_token() *Token {
 	char := l.reader.Peek()
 
 	if unicode.IsSpace(char) {
-		l.processWhitespace()
+		return l.processWhitespace()
 	}
 
 	if char == '\'' {
@@ -134,7 +134,7 @@ func (l *Lexer) processStringLiteral() *Token {
 				if j != i {
 					panic("Wrong string")
 				}
-
+				l.reader.Jump(j)
 				break
 			} else {
 				l.reader.Next()
