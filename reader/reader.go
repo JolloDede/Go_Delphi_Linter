@@ -1,4 +1,4 @@
-package src
+package reader
 
 type EOFError struct{}
 

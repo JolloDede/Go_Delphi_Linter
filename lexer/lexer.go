@@ -1,17 +1,19 @@
-package src
+package lexer
 
 import (
 	"slices"
 	"strings"
 	"unicode"
+
+	"github.com/JolloDede/Go_Delphi_Linter/reader"
 )
 
 type Lexer struct {
-	reader CharReader
+	reader reader.CharReader
 }
 
 func NewLexer(input string) Lexer {
-	return Lexer{reader: NewCharReader(input)}
+	return Lexer{reader: reader.NewCharReader(input)}
 }
 
 func (l *Lexer) Peek() *Token {

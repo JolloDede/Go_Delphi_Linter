@@ -1,6 +1,8 @@
-package src
+package lexer
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestLexerOperators(t *testing.T) {
 	l := NewLexer("+-*/=;:")
