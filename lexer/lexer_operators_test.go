@@ -11,55 +11,55 @@ func TestLexerOperators(t *testing.T) {
 	if tok.Typ != "Token" {
 		t.Errorf(`NewLexer("+-*/=;:").next_token().Typ = %q, want "Token", error`, tok.Typ)
 	}
-	if tok.content != "+" {
-		t.Errorf(`NewLexer("+-*/=;:").next_token().content = %q, want "+", error`, tok.content)
+	if tok.Content != "+" {
+		t.Errorf(`NewLexer("+-*/=;:").next_token().content = %q, want "+", error`, tok.Content)
 	}
 
 	tok = l.next_token()
 	if tok.Typ != "Token" {
 		t.Errorf(`NewLexer("+-*/=;:").next_token().Typ = %q, want "Token", error`, tok.Typ)
 	}
-	if tok.content != "-" {
-		t.Errorf(`NewLexer("+-*/=;:").next_token().content = %q, want "-", error`, tok.content)
+	if tok.Content != "-" {
+		t.Errorf(`NewLexer("+-*/=;:").next_token().content = %q, want "-", error`, tok.Content)
 	}
 
 	tok = l.next_token()
 	if tok.Typ != "Token" {
 		t.Errorf(`NewLexer("+-*/=;:").next_token().Typ = %q, want "Token", error`, tok.Typ)
 	}
-	if tok.content != "*" {
-		t.Errorf(`NewLexer("+-*/=;:").next_token().content = %q, want "*", error`, tok.content)
+	if tok.Content != "*" {
+		t.Errorf(`NewLexer("+-*/=;:").next_token().content = %q, want "*", error`, tok.Content)
 	}
 
 	tok = l.next_token()
 	if tok.Typ != "Token" {
 		t.Errorf(`NewLexer("+-*/=;:").next_token().Typ = %q, want "Token", error`, tok.Typ)
 	}
-	if tok.content != "/" {
-		t.Errorf(`NewLexer("+-*/=;:").next_token().content = %q, want "/", error`, tok.content)
+	if tok.Content != "/" {
+		t.Errorf(`NewLexer("+-*/=;:").next_token().content = %q, want "/", error`, tok.Content)
 	}
 
 	tok = l.next_token()
 	if tok.Typ != "Token" {
 		t.Errorf(`NewLexer("+-*/=;:").next_token().Typ = %q, want "Token", error`, tok.Typ)
 	}
-	if tok.content != "=" {
-		t.Errorf(`NewLexer("+-*/=;:").next_token().content = %q, want "=", error`, tok.content)
+	if tok.Content != "=" {
+		t.Errorf(`NewLexer("+-*/=;:").next_token().content = %q, want "=", error`, tok.Content)
 	}
 
 	tok = l.next_token()
 	if tok.Typ != "Token" {
 		t.Errorf(`NewLexer("+-*/=;:").next_token().Typ = %q, want "Token", error`, tok.Typ)
 	}
-	if tok.content != ";" {
-		t.Errorf(`NewLexer("+-*/=;:").next_token().content = %q, want ";", error`, tok.content)
+	if tok.Content != ";" {
+		t.Errorf(`NewLexer("+-*/=;:").next_token().content = %q, want ";", error`, tok.Content)
 	}
 
 	tok = l.next_token()
 	if tok.Typ != "Token" {
 		t.Errorf(`NewLexer("+-*/=;:").next_token().Typ = %q, want "Token", error`, tok.Typ)
 	}
-	if tok.content != ":" {
-		t.Errorf(`NewLexer("+-*/=;:").next_token().content = %q, want ":", error`, tok.content)
+	if tok.Content != ":" {
+		t.Errorf(`NewLexer("+-*/=;:").next_token().content = %q, want ":", error`, tok.Content)
 	}
 }

@@ -16,12 +16,12 @@ const (
 
 type Token struct {
 	Typ     TokenTyp
-	content string
+	Content string
 
 	row int
 	col int
 }
 
 func NewToken(typ TokenTyp, content string, row int, col int) *Token {
-	return &Token{Typ: typ, content: content, row: row, col: col}
+	return &Token{Typ: typ, Content: content, row: row, col: col}
 }
